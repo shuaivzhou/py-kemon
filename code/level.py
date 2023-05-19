@@ -42,7 +42,7 @@ class Level:
 		self.success = pygame.mixer.Sound('../audio/success.wav')
 		self.success.set_volume(0.3)
 		self.music = pygame.mixer.Sound('../audio/64_driftveil_city.mp3')
-		self.music.set_volume(0.2)
+		self.music.set_volume(0.05)
 		self.music.play(loops = -1)
 
 	def setup(self):
@@ -104,7 +104,7 @@ class Level:
 
 		Generic(
 			pos = (0,0),
-			surf = pygame.image.load('../graphics/world/pokeGroundTest.png').convert_alpha(),
+			surf = pygame.image.load('../graphics/world/ground.png').convert_alpha(),
 			groups = self.all_sprites,
 			z = LAYERS['ground'])
 
