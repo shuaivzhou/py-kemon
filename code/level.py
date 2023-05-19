@@ -174,6 +174,15 @@ class CameraGroup(pygame.sprite.Group):
 		super().__init__()
 		self.display_surface = pygame.display.get_surface()
 		self.offset = pygame.math.Vector2()
+		self.half_w = self.display_surface.get_size()[0] // 2
+		self.half_h = self.display_surface.get_size()[1] // 2
+
+		#zoom
+		self.zoom_scale = 0.01
+		self.internal_surf_size = (2500, 2500)
+		self.internal_surf = pygame.Surface(self.internal_surf_size, pygame.SRCALPHA)
+		self.internal_rect = self.internal_surf.get_rect(center = (self.half_w, self.half_h))
+		self.internal_surface_size_vector = pygame.math.Vector2(self.internal_surf_size)
 
 	def custom_draw(self, player):
 		self.offset.x = player.rect.centerx - SCREEN_WIDTH / 2
@@ -184,7 +193,10 @@ class CameraGroup(pygame.sprite.Group):
 				if sprite.z == layer:
 					offset_rect = sprite.rect.copy()
 					offset_rect.center -= self.offset
-					self.display_surface.blit(sprite.image, offset_rect)
+
+					scaled_surf = pygame.transform.scale(self.internal_surf, self.internal_surface_size_vector * self.zoom_scale)
+					scaled_rect = scaled_surf.get_rect(center = (self.half_w, self.half_h))
+					self.display_surface.blit(sprite.image, scaled_rect)
 
 					# # analytics
 					# if sprite == player:
